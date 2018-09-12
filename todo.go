@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -182,10 +183,12 @@ func (db *Database) taskHandler(w http.ResponseWriter, r *http.Request) {
 // it returns a database handle.
 func ConnectDb() *sql.DB {
 	// TODO: Refactor the database config
-	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s@%s/%s?sslmode=disable", databaseUser, databaseHost, databaseName))
+	//db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s@%s/%s?sslmode=disable", databaseUser, databaseHost, databaseName))
+	db, err := sql.Open("sqlite3", "./foo.db")
 	if err != nil {
 		log.Fatal(err)
-	}
+}
+
 
 	return db
 }
