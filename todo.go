@@ -110,10 +110,11 @@ func getTasks(db *sql.DB, listId int, w http.ResponseWriter) []Task {
 // It returns the Id of the list.
 func insertList(db *sql.DB, listName string, w http.ResponseWriter) int {
 	var listId int
-	err := db.QueryRow("insert into list (name) values ($1) returning id", listName).Scan(&listId)
+	//err := db.QueryRow("insert into list (name) values ($1) returning id", listName).Scan(&listId)
+	_, err := db.Exec("insert into list (name) values ($1) ", listName)
+	 db.QueryRow("select last_insert_rowid()").Scan(&listId) // SQLite specific 
 	CheckFatal(err, w)
-
-	return listId
+	return 0
 }
 
 // insertTask adds a task to the database.
@@ -153,7 +154,6 @@ func (db *Database) listHandler(w http.ResponseWriter, r *http.Request) {
 		listRequest := ListCreateRequest{}
 		err = json.Unmarshal(body, &listRequest)
 		CheckFatal(err, w)
-
 		listResponse := ListCreateResponse{}
 		listResponse.Id = insertList(db.Db, listRequest.Name, w)
 

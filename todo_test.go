@@ -41,13 +41,11 @@ func TestTask(test *testing.T) {
     setup(test)
     testServer := httptest.NewServer(Handlers())
     defer testServer.Close()
-
     // Create a new list for the different tasks
     b, err := json.Marshal(ListCreateRequest{Name: "Work"})
     checkFail(test, err)
     res, err := http.Post(testServer.URL + "/list", "application/json", bytes.NewReader(b))
     checkFail(test, err)
-
     // Read the response and retrieve the id for the newly created list
     listResp := ListCreateResponse{}
     body, err := ioutil.ReadAll(res.Body)
