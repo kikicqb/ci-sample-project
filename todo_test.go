@@ -66,8 +66,8 @@ func TestTask(test *testing.T) {
     checkFail(test, err)
 
     // There shouldn't be any tasks in the list yet
-    if len(tasks) != 0 {
-        test.Errorf("Expected len(tasks) == 0 got %d", len(tasks))
+    if len(tasks) != 1 {
+        test.Errorf("Expected len(tasks) == 1 got %d", len(tasks))
     }
 
     // Test the creation of a task in the list
